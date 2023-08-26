@@ -109,6 +109,11 @@
               const createFileName = prompt('Enter the file name:');
               handleCommand('files-create-file', [createFileName]); // Change the command here
             });
+
+            $(document).on('click', '.save-file-btn', function () {
+              // const createFileName = prompt('Enter the file name:');
+              handleCommand('files-create-file', []); // Change the command here
+            });
             break;
 
           case 'files-create-file': // Change the case to match the new command
@@ -133,7 +138,7 @@
 
 
           case 'files-save-file':
-            const updateFileName = args[0];
+            const updateFileName = "";
 
             // Display a form popup to enter file content
             const form = `
