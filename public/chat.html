@@ -283,6 +283,8 @@
             if (stopwatch.stopwatchIntervalHandle) {
               clearInterval(stopwatch.stopwatchIntervalHandle);
               stopwatch.stopwatchIntervalHandle = null;
+              stopwatch.laps = [];
+              stopwatch.startDatetime = null,
               displayMessage('Stopwatch', 'Stopwatch stopped');
             } else {
               displayMessage('Stopwatch', 'Stopwatch is not running');
