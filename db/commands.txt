@@ -1,0 +1,9 @@
+touch keyvaluestore.db
+sqlite3 keyvaluestore.db
+
+---
+CREATE TABLE IF NOT EXISTS kvstore (
+  key TEXT PRIMARY KEY,
+  value TEXT
+);
+.quit

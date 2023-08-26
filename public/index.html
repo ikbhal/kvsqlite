@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Key-Value Store</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-4">
+    <h2>Key-Value Store</h2>
+    <form id="setForm">
+      <div class="form-group">
+        <label for="key">Key:</label>
+        <input type="text" class="form-control" id="key" required>
+      </div>
+      <div class="form-group">
+        <label for="value">Value:</label>
+        <input type="text" class="form-control" id="value" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Set</button>
+    </form>
+    <hr>
+    <div>
+      <h4>Get Value</h4>
+      <div class="form-group">
+        <label for="getKey">Enter Key:</label>
+        <input type="text" class="form-control" id="getKey" required>
+      </div>
+      <button id="getValueBtn" class="btn btn-primary">Get Value</button>
+      <p id="getValueResult"></p>
+    </div>
+    <hr>
+    <div>
+      <h4>All Keys</h4>
+      <button id="getAllKeysBtn" class="btn btn-primary">Get All Keys</button>
+      <ul id="allKeysList"></ul>
+    </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Set Key-Value
+      $('#setForm').submit(function(event) {
+        event.preventDefault();
+        const key = $('#key').val();
+        const value = $('#value').val();
+        
+        $.post('http://keyvaluestore.rontohub.com:3064/set', { key, value }, function(data) {
+          console.log(data);
+        });
+      });
+
+      // Get Value
+      $('#getValueBtn').click(function() {
+        const key = $('#getKey').val();
+        
+        $.get(`http://keyvaluestore.rontohub.com:3064/get/${key}`, function(data) {
+          $('#getValueResult').text(`Value: ${data.value}`);
+        }).fail(function(jqXHR) {
+          $('#getValueResult').text(jqXHR.responseJSON.error);
+        });
+      });
+
+      // Get All Keys
+      $('#getAllKeysBtn').click(function() {
+        $.get('http://keyvaluestore.rontohub.com:3064/keys', function(data) {
+          const keys = data.keys;
+          const keysList = keys.map(key => `<li>${key}</li>`).join('');
+          $('#allKeysList').html(keysList);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+# Node.js / npm
+node_modules/
+npm-debug.log*
+
+# Environment
+.env
+
+# Build output
+dist/
+build/
+
+# Editor-specific files
+.vscode/
+.idea/
+
+# Logs and databases
+*.log
+*.sqlite
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
