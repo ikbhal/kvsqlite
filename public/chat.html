@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat Web</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+
 <body>
   <div class="container mt-4">
     <h2>Chat Web</h2>
@@ -56,6 +58,34 @@
             });
             break;
           // ... Handle other commands similarly ...
+          case 'get':
+            const getKey = args[0];
+            $.get(`/get/${getKey}`, function (data) {
+              displayMessage('Server', `Value for key '${getKey}': ${data.value}`);
+            }).fail(function (jqXHR) {
+              displayMessage('Server', jqXHR.responseJSON.error);
+            });
+            break;
+          case 'list':
+            $.get('/keys', function (data) {
+              displayMessage('Server', `Keys: ${data.keys.join(', ')}`);
+            }).fail(function (jqXHR) {
+              displayMessage('Server', jqXHR.responseJSON.error);
+            });
+            break;
+          case 'delete':
+            const deleteKey = args[0];
+            $.ajax({
+              url: `/delete/${deleteKey}`,
+              type: 'DELETE',
+              success: function (data) {
+                displayMessage('Server', data.message);
+              },
+              error: function (jqXHR) {
+                displayMessage('Server', jqXHR.responseJSON.error);
+              }
+            });
+            break;
           default:
             displayMessage('Server', `Unknown command: ${command}`);
         }
@@ -67,4 +97,5 @@
     });
   </script>
 </body>
+
 </html>
