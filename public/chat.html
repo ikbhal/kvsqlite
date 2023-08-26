@@ -388,14 +388,53 @@
               displayMessage('Counter', 'No current counter selected');
             }
             break;
+
+          case '/counter-current-button':
+            const counterName = args[0];
+            if (counters[counterName] !== undefined) {
+              displayMessage('Server', `Current Counter: ${counterName}`);
+              displayMessage('Server', '<button class="btn btn-primary counter-incr-btn">Increment</button>');
+              displayMessage('Server', '<button class="btn btn-primary counter-decr-btn">Decrement</button>');
+              displayMessage('Server', '<button class="btn btn-primary counter-reset-btn">Reset</button>');
+              displayMessage('Server', `<button class="btn btn-primary counter-get-value-btn" data-counter="${counterName}">Get Current Value</button>`);
+
+            } else {
+              displayMessage('Server', `Counter '${counterName}' not found`);
+            }
+            break;
+
           case 'counter-help':
-            displayMessage('Counter', 'Available commands: counter-add, counter-list, counter-delete, counter-current, counter-set-current, counter-incr, counter-decr, counter-reset, counter-help');
+            displayMessage('Counter', 'Available commands: counter-add, counter-list, counter-delete, counter-current, counter-set-current, counter-incr, counter-decr, counter-reset,counter-current-button,  counter-help');
             break;
 
           default:
             displayMessage('Server', `Unknown command: ${command}`);
         }
       }
+
+      $(document).on('click', '.counter-get-value-btn', function () {
+        const counterName = $(this).data('counter');
+        displayMessage('Server', `Current Value of '${counterName}': ${counters[counterName]}`);
+      });
+
+      $(document).on('click', '.counter-incr-btn', function () {
+        const counterName = $(this).data('counter');
+        counters[counterName]++;
+        displayMessage('Server', `Incremented '${counterName}': ${counters[counterName]}`);
+      });
+
+      $(document).on('click', '.counter-decr-btn', function () {
+        const counterName = $(this).data('counter');
+        counters[counterName]--;
+        displayMessage('Server', `Decremented '${counterName}': ${counters[counterName]}`);
+      });
+
+      $(document).on('click', '.counter-reset-btn', function () {
+        const counterName = $(this).data('counter');
+        counters[counterName] = 0;
+        displayMessage('Server', `Reset '${counterName}' to 0`);
+      });
+
 
 
       function openPopupWindow(htmlContent) {
