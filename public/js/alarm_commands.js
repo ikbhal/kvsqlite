@@ -27,7 +27,7 @@ class AlarmCommands {
     const [time] = args;
 
     // Validate time format (hh:mm:ss am/pm)
-    if (!isValidTimeFormat(time)) {
+    if (!this.isValidTimeFormat(time)) {
       return 'Invalid time format. Use hh:mm:ss am/pm format.';
     }
 
