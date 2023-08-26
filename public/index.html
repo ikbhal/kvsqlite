@@ -32,6 +32,18 @@
       <button id="getValueBtn" class="btn btn-primary">Get Value</button>
       <p id="getValueResult"></p>
     </div>
+
+    <div>
+      <h4>Delete Key</h4>
+      <form id="deleteForm">
+        <div class="form-group">
+          <label for="deleteKey">Enter Key to Delete:</label>
+          <input type="text" class="form-control" id="deleteKey" required>
+        </div>
+        <button id="deleteKeyBtn" class="btn btn-danger">Delete Key</button>
+      </form>
+      <p id="deleteResult"></p>
+    </div>
     <hr>
     <div>
       <h4>All Keys</h4>
@@ -143,6 +155,26 @@
         });
       });
 
+
+      // Delete Key Form Submission
+      $('#deleteForm').submit(function (event) {
+        event.preventDefault();
+        const keyToDelete = $('#deleteKey').val();
+
+        $.ajax({
+          url: `/delete/${keyToDelete}`,
+          type: 'DELETE',
+          success: function (data) {
+            $('#deleteResult').text(data.message);
+            alert(data.message);
+            // Refresh the list of keys or take any other necessary action
+          },
+          error: function (jqXHR) {
+            $('#deleteResult').text(jqXHR.responseJSON.error);
+            alert(jqXHR.responseJSON.error);
+          }
+        });
+      });
     });
   </script>
 </body>
