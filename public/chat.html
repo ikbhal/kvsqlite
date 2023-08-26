@@ -111,8 +111,9 @@
             });
 
             $(document).on('click', '.save-file-btn', function () {
+              const createFileName = prompt('Enter the file name:');
               // const createFileName = prompt('Enter the file name:');
-              handleCommand('files-create-file', []); // Change the command here
+              handleCommand('files-create-file', [createFileName ]); // Change the command here
             });
             break;
 
@@ -138,7 +139,7 @@
 
 
           case 'files-save-file':
-            const updateFileName = "";
+            const updateFileName = arg[0];
 
             // Display a form popup to enter file content
             const form = `
