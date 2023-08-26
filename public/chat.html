@@ -114,7 +114,7 @@
             $(document).on('click', '.save-file-btn', function () {
               const createFileName = prompt('Enter the file name:');
               // const createFileName = prompt('Enter the file name:');
-              handleCommand('files-save-file', [createFileName ]); // Change the command here
+              handleCommand('files-save-file', [createFileName]); // Change the command here
             });
             break;
 
@@ -156,9 +156,43 @@
             displayMessage('Server', form);
             break;
 
+
+          case 'git-pull':
+            let directory = args[0];
+
+            if (!directory) {
+              directory = prompt('Enter the repository path:');
+            }
+
+            if (directory) {
+              const preselect = 'pull';
+
+              $.ajax({
+                url: 'https://git.rontohub.com/git-command',
+                type: 'POST',
+                data: { directory, preselect },
+                success: function (data) {
+                  openPopupWindow(data); // Passing the entire data response
+                },
+                error: function (jqXHR) {
+                  displayMessage('Server', jqXHR.responseJSON.error);
+                }
+              });
+            } else {
+              displayMessage('Server', 'Repository path cannot be empty');
+            }
+            break;
+
+
           default:
             displayMessage('Server', `Unknown command: ${command}`);
         }
+      }
+
+
+      function openPopupWindow(htmlContent) {
+        const popup = window.open('', '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
+        popup.document.write(htmlContent);
       }
 
       $(document).on('submit', '#updateFileForm', function (event) {
