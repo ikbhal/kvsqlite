@@ -1,0 +1,17 @@
+workspace ->many boards -> many list -> many cards 
+---
+one board 
+---
+add-list  name  // create list of name <name>
+delete-list name  // delete list of name <name>
+rename-list oldname newname  // rename list of name <name>
+list-cards name //list of cards of given list <name>
+
+select-list name // mark current list as <name> 
+
+add-card cname //add card <cname> to current list 
+
+delete-card cname // delete card <cname> from current list 
+rename-card cnameold cnamenew //rename card from cnameold to cnamenew in current lilst 
+---
+move-card-list cname lname // move card cname from current list to list named lname 

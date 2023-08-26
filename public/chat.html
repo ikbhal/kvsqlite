@@ -45,6 +45,22 @@
     }
     // stopwatch end
 
+    // counters start 
+    let currentCounter = null;
+    const counters = {};
+
+    function formatCounterTable() {
+      let table = '<table><thead><tr><th>Sno</th><th>Name</th><th>Value</th></tr></thead><tbody>';
+      let sno = 1;
+      for (const counterName in counters) {
+        table += `<tr><td>${sno}</td><td>${counterName}</td><td>${counters[counterName]}</td></tr>`;
+        sno++;
+      }
+      table += '</tbody></table>';
+      return table;
+    }
+    // counters end
+
     $(document).ready(function () {
       const chatMessages = $('#chatMessages');
 
@@ -208,6 +224,8 @@
 
           //pomodoro 
           case 'pomodoro-work-start':
+          case 'pomo-start':
+          case 'pomostart':
             pomodoro_command = command;
             startPomodoro(25, 'work');
             break;
@@ -285,7 +303,7 @@
               stopwatch.stopwatchIntervalHandle = null;
               stopwatch.laps = [];
               stopwatch.startDatetime = null,
-              displayMessage('Stopwatch', 'Stopwatch stopped');
+                displayMessage('Stopwatch', 'Stopwatch stopped');
             } else {
               displayMessage('Stopwatch', 'Stopwatch is not running');
             }
@@ -316,6 +334,62 @@
             break;
           case 'stopwatch-help':
             displayMessage('Stopwatch', 'Available commands: stopwatch-start, stopwatch-lap, stopwatch-stop, stopwatch-status, stopwatch-lap-table, stopwatch-help');
+            break;
+          case 'counter-add':
+            counters[args[0]] = 0;
+            displayMessage('Counter', `Counter '${args[0]}' added`);
+            break;
+          case 'counter-list':
+            displayMessage('Counter', formatCounterTable());
+            break;
+          case 'counter-delete':
+            if (counters[args[0]] !== undefined) {
+              delete counters[args[0]];
+              displayMessage('Counter', `Counter '${args[0]}' deleted`);
+            } else {
+              displayMessage('Counter', `Counter '${args[0]}' not found`);
+            }
+            break;
+          case 'counter-current':
+            if (currentCounter) {
+              displayMessage('Counter', `Current Counter: ${currentCounter} | Value: ${counters[currentCounter]}`);
+            } else {
+              displayMessage('Counter', 'No current counter selected');
+            }
+            break;
+          case 'counter-set-current':
+            currentCounter = args[0];
+            displayMessage('Counter', `Current Counter set to '${args[0]}'`);
+            break;
+          case 'counter-incr':
+          case 'counter-i':
+            if (currentCounter) {
+              counters[currentCounter]++;
+              displayMessage('Counter', `Counter '${currentCounter}' incremented to ${counters[currentCounter]}`);
+            } else {
+              displayMessage('Counter', 'No current counter selected');
+            }
+            break;
+          case 'counter-decr':
+          case 'counter-d':
+            if (currentCounter) {
+              counters[currentCounter]--;
+              displayMessage('Counter', `Counter '${currentCounter}' decremented to ${counters[currentCounter]}`);
+            } else {
+              displayMessage('Counter', 'No current counter selected');
+            }
+            break;
+          case 'counter-reset':
+          case 'counter-r':
+            if (currentCounter) {
+              counters[currentCounter] = 0;
+              displayMessage('Counter', `Counter '${currentCounter}' reset to 0`);
+            } else {
+              displayMessage('Counter', 'No current counter selected');
+            }
+            break;
+          case 'counter-help':
+            displayMessage('Counter', 'Available commands: counter-add, counter-list, counter-delete, counter-current, counter-set-current, counter-incr, counter-decr, counter-reset, counter-help');
             break;
 
           default:

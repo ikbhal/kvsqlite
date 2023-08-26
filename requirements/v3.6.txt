@@ -1,0 +1,87 @@
+counters
+
+counter add name // add counter named <name>
+counter list  // list of counters , show table format  sno, name, current value 
+counter delete name // delete counter named <name>
+counter current name // mark counter <name> as current counter 
+counter current // get the current counter name, value 
+counter  help // all counter commands 
+counter i, ci // increment current counter  value by 1
+counter d, cd // decrement currnet counter value by 1 
+counter r, cr // reset current coutner value to o
+
+---
+counter incr <name> // increment counter named <name> by 1 
+counter decr <name> // decrement counter named <name> by 1 
+coutner reset <name> // reset counter named <name> to o
+---
+for each operation 
+use api to save , update, delete ajax
+
+1) set key value 
+url: 
+https://kvsqllite.rontohub.com/set 
+http method: post 
+body: 
+content type : json 
+body format 
+{ key, value }
+
+resposne:
+
+ fail { error: 'Internal server error' }
+success { message: 'Key-value pair set successfully' }
+
+---
+2) get key 
+url:
+https://kvsqllite.rontohub.com/get/:key
+get http method 
+
+rsponse : { value: <value> }
+
+app.get('/get/:key', (req, res) => {
+  const { key } = req.params;
+  db.get('SELECT value FROM kvstore WHERE key = ?', [key], (err, row) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else if (row) {
+      res.json({ value: row.value });
+    } else {
+      res.status(404).json({ error: 'Key not found' });
+    }
+  });
+});
+
+app.get('/keys', (req, res) => {
+  db.all('SELECT key FROM kvstore', (err, rows) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      const keys = rows.map(row => row.key);
+      res.json({ keys });
+    }
+  });
+});
+
+4) delete  key 
+https://kvsqlite.rontohub.com/delete/<key>, http method delete 
+fail response  { error: 'Internal server error' }
+success response { message: 'Key deleted successfully' }
+
+
+app.delete('/delete/:key', (req, res) => {
+  const keyToDelete = req.params.key;
+
+  // Assuming "db" is your SQLite database connection
+  db.run('DELETE FROM kvstore WHERE key = ?', [keyToDelete], (err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.json({ message: 'Key deleted successfully' });
+    }
+  });
+});

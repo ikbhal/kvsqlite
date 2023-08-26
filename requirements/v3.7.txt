@@ -1,0 +1,9 @@
+notes 
+add 
+delete 
+edit 
+get 
+list 
+search
+
+notes(name, content)
