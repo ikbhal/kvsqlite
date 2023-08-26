@@ -95,6 +95,41 @@
               }
             });
             break;
+
+          case 'files':
+            const buttons = `
+        <button class="btn btn-primary create-file-btn">Create File</button><br>
+        <button class="btn btn-primary get-file-content-btn">Get File Content</button><br>
+        <button class="btn btn-primary save-file-btn">Save File</button><br>
+        <button class="btn btn-primary rename-file-btn">Rename File</button><br>
+      `;
+            displayMessage('Server', buttons);
+
+            $(document).on('click', '.create-file-btn', function () {
+              const createFileName = prompt('Enter the file name:');
+              handleCommand('files-create-file', [createFileName]); // Change the command here
+            });
+            break;
+
+          case 'files-create-file': // Change the case to match the new command
+            const createFileName = args[0];
+            if (createFileName) {
+              $.ajax({
+                url: 'https://files.rontohub.com/createFile',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ fileName: createFileName }),
+                success: function (data) {
+                  displayMessage('Server', data.message);
+                },
+                error: function (jqXHR) {
+                  displayMessage('Server', jqXHR.responseJSON.error);
+                }
+              });
+            } else {
+              displayMessage('Server', 'File name cannot be empty');
+            }
+            break;
           default:
             displayMessage('Server', `Unknown command: ${command}`);
         }
