@@ -8,3 +8,10 @@ todos
 6) filtter todo 
 7) show uncompleted todos 
 8) compelted todos 
+
+---
+not completed 
+save to server via kvsqlite 
+---
+not completed 
+mulitple list 
