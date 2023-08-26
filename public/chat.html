@@ -25,7 +25,7 @@
     $(document).ready(function () {
       const chatMessages = $('#chatMessages');
 
-      $('#sendMessageBtn').click(function () {
+      function sendMessage() {
         const message = $('#messageInput').val();
         const isCommand = message.startsWith('/');
 
@@ -37,6 +37,15 @@
         }
 
         $('#messageInput').val('');
+      }
+
+      $('#sendMessageBtn').click(sendMessage);
+
+      $('#messageInput').keypress(function (event) {
+        if (event.which === 13) { // Enter key
+          event.preventDefault();
+          sendMessage();
+        }
       });
 
       function handleCommand(command, args) {
