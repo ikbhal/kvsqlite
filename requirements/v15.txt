@@ -1,0 +1,8 @@
+use case 
+1) namaaz reminder 
+1) water drink reminder 
+1) toilet reminder 
+1) apply job reminder 
+1) network reconnect reminder - revisit people 
+1) bike service reminder 
+2) event attend reminder 
