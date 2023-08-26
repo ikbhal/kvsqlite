@@ -1,0 +1,7 @@
+alarms add 
+dleete 
+list 
+edit 
+stop 
+pause 
+resume
