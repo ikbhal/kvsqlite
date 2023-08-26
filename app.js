@@ -1,12 +1,14 @@
 const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3');
+const path = require('path');
 
 const app = express();
 const port = 3064;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 const db = new sqlite3.Database('keyvaluestore.db');
 
