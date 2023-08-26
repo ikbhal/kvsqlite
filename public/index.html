@@ -47,7 +47,7 @@
         const key = $('#key').val();
         const value = $('#value').val();
         
-        $.post('http://keyvaluestore.rontohub.com:3064/set', { key, value }, function(data) {
+        $.post('/set', { key, value }, function(data) {
           console.log(data);
         });
       });
@@ -56,7 +56,7 @@
       $('#getValueBtn').click(function() {
         const key = $('#getKey').val();
         
-        $.get(`http://keyvaluestore.rontohub.com:3064/get/${key}`, function(data) {
+        $.get(`/get/${key}`, function(data) {
           $('#getValueResult').text(`Value: ${data.value}`);
         }).fail(function(jqXHR) {
           $('#getValueResult').text(jqXHR.responseJSON.error);
@@ -65,7 +65,7 @@
 
       // Get All Keys
       $('#getAllKeysBtn').click(function() {
-        $.get('http://keyvaluestore.rontohub.com:3064/keys', function(data) {
+        $.get('/keys', function(data) {
           const keys = data.keys;
           const keysList = keys.map(key => `<li>${key}</li>`).join('');
           $('#allKeysList').html(keysList);
