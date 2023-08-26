@@ -19,10 +19,17 @@
         <button id="sendMessageBtn" class="btn btn-primary">Send</button>
       </div>
     </div>
+
+    <audio id="beepAudio" src="http://cd.textfiles.com/mmplatinum/SOUNDS/WAV/MOREWAV/ADAT.WAV"></audio>
+
   </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script>
+    let timerInterval; // Store the interval for the timer
+    let remainingSeconds = 0;
+    let pomodoro_type = "";
+    let pomodoro_command = "";
     $(document).ready(function () {
       const chatMessages = $('#chatMessages');
 
@@ -184,6 +191,49 @@
             break;
 
 
+          //pomodoro 
+          case 'pomodoro-work-start':
+            pomodoro_command = command;
+            startPomodoro(25, 'work');
+            break;
+          case 'pomodoro-short-start':
+            pomodoro_command = command;
+            startPomodoro(5, 'short break');
+            break;
+          case 'pomodoro-long-start':
+            pomodoro_command = command;
+            startPomodoro(15, 'long break');
+            break;
+          case 'pomodoro-work-stop':
+          case 'pomodoro-short-stop':
+          case 'pomodoro-long-stop':
+            pomodoro_command = command;
+            stopPomodoro();
+            break;
+          case 'pomodoro-status':
+            let statusMessage = 'No active Pomodoro timer';
+            if (timerInterval) {
+              // Check which timer is active
+              if (pomodoro_command.includes('work')) {
+                statusMessage = 'Work Pomodoro timer is active';
+              } else if (pomodoro_command.includes('short')) {
+                statusMessage = 'Short Break timer is active';
+              } else if (pomodoro_command.includes('long')) {
+                statusMessage = 'Long Break timer is active';
+              }
+
+              // Calculate time left in seconds
+              const secondsLeft = Math.max(remainingSeconds, 0);
+              const minutesLeft = Math.floor(secondsLeft / 60);
+              const secondsDisplay = secondsLeft % 60;
+              statusMessage += ` - Time left: ${minutesLeft}m ${secondsDisplay}s`;
+            }
+
+            displayMessage('Server', statusMessage);
+            break;
+
+          // ...
+
           default:
             displayMessage('Server', `Unknown command: ${command}`);
         }
@@ -217,7 +267,41 @@
       function displayMessage(sender, content) {
         chatMessages.append(`<p><strong>${sender}:</strong> ${content}</p>`);
       }
+
+
+      function startPomodoro(minutes, type) {
+        const seconds = minutes * 60;
+        // let remainingSeconds = seconds;
+        remainingSeconds = seconds;
+        displayMessage('Server', `Pomodoro ${type} started for ${minutes} minutes`);
+
+        timerInterval = setInterval(function () {
+          remainingSeconds -= 1;
+          if (remainingSeconds <= 0) {
+            clearInterval(timerInterval);
+            playBeepSound(); // Play a beep sound or show a dialog
+            displayMessage('Server', `Pomodoro ${type} reached`);
+          }
+        }, 1000);
+      }
+
+      function stopPomodoro() {
+        clearInterval(timerInterval);
+        displayMessage('Server', 'Pomodoro stopped');
+      }
+
+      function playBeepSound() {
+        const beepAudio = document.getElementById('beepAudio');
+        if (beepAudio) {
+          beepAudio.play();
+        }
+      }
+
+
+
     });
+
+
   </script>
 </body>
 
