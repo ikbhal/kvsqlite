@@ -120,7 +120,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({ fileName: createFileName }),
                 success: function (data) {
-                  displayMessage('Server', data.message);
+                  displayMessage('Server', data);
                 },
                 error: function (jqXHR) {
                   displayMessage('Server', jqXHR.responseJSON.error);
@@ -130,10 +130,48 @@
               displayMessage('Server', 'File name cannot be empty');
             }
             break;
+
+
+          case 'files-save-file':
+            const updateFileName = args[0];
+
+            // Display a form popup to enter file content
+            const form = `
+    <form id="updateFileForm">
+      <div class="form-group">
+        <label for="updateFileContent">File Content:</label>
+        <textarea id="updateFileContent" class="form-control" rows="5">${updateFileContent}</textarea>
+      </div>
+      <input type="hidden" id="updateFileName" value="${updateFileName}">
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  `;
+            displayMessage('Server', form);
+            break;
+
           default:
             displayMessage('Server', `Unknown command: ${command}`);
         }
       }
+
+      $(document).on('submit', '#updateFileForm', function (event) {
+        event.preventDefault();
+        const updateFileName = $('#updateFileName').val(); // Get from hidden input
+        const updateFileContent = $('#updateFileContent').val();
+
+        $.ajax({
+          url: 'https://files.rontohub.com/updateFile',
+          method: 'POST', // Use POST for updating file content
+          contentType: 'application/json',
+          data: JSON.stringify({ fileName: updateFileName, fileContent: updateFileContent }),
+          success: function () {
+            displayMessage('Server', 'File updated successfully!');
+          },
+          error: function (jqXHR) {
+            displayMessage('Server', jqXHR.responseJSON.error);
+          }
+        });
+      });
 
       function displayMessage(sender, content) {
         chatMessages.append(`<p><strong>${sender}:</strong> ${content}</p>`);
