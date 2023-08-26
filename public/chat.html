@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Web</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-4">
+    <h2>Chat Web</h2>
+    <div id="chatMessages"></div>
+    <div class="input-group mb-3">
+      <input type="text" id="messageInput" class="form-control" placeholder="Type a message...">
+      <div class="input-group-append">
+        <button id="sendMessageBtn" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      const chatMessages = $('#chatMessages');
+
+      $('#sendMessageBtn').click(function () {
+        const message = $('#messageInput').val();
+        const isCommand = message.startsWith('/');
+
+        if (isCommand) {
+          const [command, ...args] = message.substring(1).split(' ');
+          handleCommand(command, args);
+        } else {
+          displayMessage('You', message);
+        }
+
+        $('#messageInput').val('');
+      });
+
+      function handleCommand(command, args) {
+        switch (command) {
+          case 'set':
+            const key = args[0];
+            const value = args[1];
+            $.ajax({
+              url: '/set',
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({ key, value }),
+              success: function (data) {
+                displayMessage('Server', data.message);
+              },
+              error: function (jqXHR) {
+                displayMessage('Server', jqXHR.responseJSON.error);
+              }
+            });
+            break;
+          // ... Handle other commands similarly ...
+          default:
+            displayMessage('Server', `Unknown command: ${command}`);
+        }
+      }
+
+      function displayMessage(sender, content) {
+        chatMessages.append(`<p><strong>${sender}:</strong> ${content}</p>`);
+      }
+    });
+  </script>
+</body>
+</html>
