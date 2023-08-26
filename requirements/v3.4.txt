@@ -1,0 +1,10 @@
+todos
+
+1) add todo 
+2) list todo 
+3) mark todo completed, uncompleted
+4) delete todo 
+5) clear todos 
+6) filtter todo 
+7) show uncompleted todos 
+8) compelted todos 

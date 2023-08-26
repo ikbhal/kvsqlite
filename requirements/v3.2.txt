@@ -1,0 +1,7 @@
+pomodoro commands
+work
+short break 
+long break 
+
+stop 
+status

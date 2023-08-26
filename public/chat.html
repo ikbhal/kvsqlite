@@ -30,6 +30,21 @@
     let remainingSeconds = 0;
     let pomodoro_type = "";
     let pomodoro_command = "";
+
+    // stopwatch start 
+    let stopwatch = {
+      stopwatchIntervalHandle: null,
+      startDatetime: null,
+      laps: []
+    };
+    function formatTime(seconds) {
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    // stopwatch end
+
     $(document).ready(function () {
       const chatMessages = $('#chatMessages');
 
@@ -233,6 +248,73 @@
             break;
 
           // ...
+
+          case 'stopwatch-start':
+            if (!stopwatch.stopwatchIntervalHandle) {
+              stopwatch.startDatetime = new Date();
+              stopwatch.laps = [];
+              stopwatch.stopwatchIntervalHandle = setInterval(function () {
+                const currentTime = new Date();
+                const elapsedSeconds = Math.floor((currentTime - stopwatch.startDatetime) / 1000);
+                // displayMessage('Stopwatch', `Elapsed Time: ${formatTime(elapsedSeconds)}`);
+              }, 1000);
+              displayMessage('Stopwatch', 'Stopwatch started');
+            } else {
+              displayMessage('Stopwatch', 'Stopwatch is already running');
+            }
+            break;
+          case 'stopwatch-lap':
+            if (stopwatch.stopwatchIntervalHandle) {
+              const currentTime = new Date();
+              const elapsedSeconds = Math.floor((currentTime - stopwatch.startDatetime) / 1000);
+              const lapTime = elapsedSeconds - (stopwatch.laps.length > 0 ? stopwatch.laps[stopwatch.laps.length - 1].totalTime : 0);
+              const lap = {
+                lapNumber: stopwatch.laps.length + 1,
+                lapTime,
+                totalTime: elapsedSeconds
+              };
+              stopwatch.laps.push(lap);
+              displayMessage('Stopwatch', `Lap ${lap.lapNumber}: ${formatTime(lap.lapTime)}`);
+            } else {
+              displayMessage('Stopwatch', 'Stopwatch is not running');
+            }
+            break;
+          case 'stopwatch-stop':
+            if (stopwatch.stopwatchIntervalHandle) {
+              clearInterval(stopwatch.stopwatchIntervalHandle);
+              stopwatch.stopwatchIntervalHandle = null;
+              displayMessage('Stopwatch', 'Stopwatch stopped');
+            } else {
+              displayMessage('Stopwatch', 'Stopwatch is not running');
+            }
+            break;
+          case 'stopwatch-status':
+            if (stopwatch.stopwatchIntervalHandle) {
+              const currentTime = new Date();
+              const elapsedSeconds = Math.floor((currentTime - stopwatch.startDatetime) / 1000);
+              const currentLap = stopwatch.laps.length > 0 ? stopwatch.laps[stopwatch.laps.length - 1] : null;
+              let statusMessage = `Current Lap: ${currentLap ? currentLap.lapNumber : 'N/A'} | `;
+              statusMessage += `Total Time: ${formatTime(elapsedSeconds)}`;
+              displayMessage('Stopwatch', statusMessage);
+            } else {
+              displayMessage('Stopwatch', 'Stopwatch is not running');
+            }
+            break;
+          case 'stopwatch-lap-table':
+            if (stopwatch.laps.length > 0) {
+              let table = '<table><thead><tr><th>Lap</th><th>Lap Time</th><th>Total Time</th></tr></thead><tbody>';
+              stopwatch.laps.forEach(lap => {
+                table += `<tr><td>${lap.lapNumber}</td><td>${formatTime(lap.lapTime)}</td><td>${formatTime(lap.totalTime)}</td></tr>`;
+              });
+              table += '</tbody></table>';
+              displayMessage('Stopwatch', table);
+            } else {
+              displayMessage('Stopwatch', 'No laps recorded yet');
+            }
+            break;
+          case 'stopwatch-help':
+            displayMessage('Stopwatch', 'Available commands: stopwatch-start, stopwatch-lap, stopwatch-stop, stopwatch-status, stopwatch-lap-table, stopwatch-help');
+            break;
 
           default:
             displayMessage('Server', `Unknown command: ${command}`);

@@ -1,0 +1,50 @@
+stop watch 
+
+1) stopwatch start 
+1) stopwatch lap 
+2) stopwatch stop
+3) stopwatch table
+4) stopwatch help
+
+---
+stopwatch help  command 
+will show all stopwatch commands 
+1) stopwatch start 
+1) stopwatch-lap 
+2) stopwatch-stop
+3) stopwatch-lap-table
+4) stopwatch-help
+5) stopwatch status 
+
+---
+stopwatch start command 
+start stopwatch 
+start javascript interval timer 1second  execute 
+maintain global variables 
+stopwatch = {
+    stopwatch_interval_handle // which we got during interval set javascript function 
+    start_datetime // when we start stop watch 
+    laps : [
+        {
+            lap_number: 1, 
+            lapt_time:
+            total_time
+        }
+    ]
+}
+
+show all times 
+dd hh:mm:ss format 
+---
+stopwatch stop 
+clear stopwatch interval handle  stop watch object 
+---
+stopwatch status 
+show current lap total time  , current lap number 
+
+---
+stopwatch-lap-table
+show stop watch table  stoopwatch.laps in table format 
+
+
+
