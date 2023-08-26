@@ -1,0 +1,4 @@
+fixed chat at the bottom
+copy file , set file name
+copy folder, set folder name 
+clipboard history

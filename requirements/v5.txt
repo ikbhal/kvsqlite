@@ -1,0 +1,5 @@
+pm2 start 
+pm2 stop 
+pm2 list
+pm2 logs 
+pm2 delete

@@ -1,0 +1,15 @@
+reminders
+singleday, single user 
+generate alarms 
+---
+list alarms
+delete alarms 
+edit alarms 
+pause alarm 
+resume alarms 
+---
+on trigger show message 
+---
+on trigger play sound 
+---
+play sound -> text to speech  play 

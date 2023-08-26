@@ -1,0 +1,8 @@
+chat.html
+chat like interfac, 
+single user
+set key
+get key 
+list key 
+delete key 
+autocomplete key locally 

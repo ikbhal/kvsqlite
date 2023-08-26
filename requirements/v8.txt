@@ -1,0 +1,12 @@
+cron 
+---
+job 
+ run script
+---
+call ajax
+---
+list cron jobs 
+add cron job 
+get cront job 
+pause cron job 
+dleete cron job 
