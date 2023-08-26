@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Key-Value Store</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+
 <body>
   <div class="container mt-4">
     <h2>Key-Value Store</h2>
@@ -34,44 +36,115 @@
     <div>
       <h4>All Keys</h4>
       <button id="getAllKeysBtn" class="btn btn-primary">Get All Keys</button>
-      <ul id="allKeysList"></ul>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="allKeysList"></tbody>
+      </table>
+
     </div>
   </div>
-  
+
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       // Set Key-Value
-      $('#setForm').submit(function(event) {
+      $('#setForm').submit(function (event) {
         event.preventDefault();
         const key = $('#key').val();
         const value = $('#value').val();
-        
-        $.post('/set', { key, value }, function(data) {
-          console.log(data);
+
+        $.ajax({
+          url: '/set',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({ key, value }),
+          success: function (data) {
+            alert('Set key value success');
+            console.log(data);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            alert('Set key failed');
+            console.error(jqXHR.responseText);
+          }
         });
+
       });
 
       // Get Value
-      $('#getValueBtn').click(function() {
+      $('#getValueBtn').click(function () {
         const key = $('#getKey').val();
-        
-        $.get(`/get/${key}`, function(data) {
+
+        $.get(`/get/${key}`, function (data) {
           $('#getValueResult').text(`Value: ${data.value}`);
-        }).fail(function(jqXHR) {
+        }).fail(function (jqXHR) {
           $('#getValueResult').text(jqXHR.responseJSON.error);
         });
       });
 
       // Get All Keys
-      $('#getAllKeysBtn').click(function() {
-        $.get('/keys', function(data) {
+      $('#getAllKeysBtn').click(function () {
+        $.get('/keys', function (data) {
           const keys = data.keys;
-          const keysList = keys.map(key => `<li>${key}</li>`).join('');
-          $('#allKeysList').html(keysList);
+          const tableBody = $('#allKeysList');
+
+          // Clear existing content
+          tableBody.empty();
+
+          // Populate the table with keys
+          keys.forEach(key => {
+            const row = `
+        <tr>
+          <td>${key}</td>
+          <td>
+            <button class="btn btn-primary get-key-btn" data-key="${key}">Get Key</button>
+            <button class="btn btn-danger delete-key-btn" data-key="${key}">Delete Key</button>
+          </td>
+        </tr>`;
+            tableBody.append(row);
+          });
+        });
+      }); ``
+
+
+      // Event listener for Get Key buttons
+      $(document).on('click', '.get-key-btn', function () {
+        const key = $(this).data('key');
+
+        // Perform GET request for the specific key
+        $.get(`/get/${key}`, function (data) {
+          // Handle the response, e.g., display the value
+          $('#getValueResult').text(`Value: ${data.value}`);
+        }).fail(function (jqXHR) {
+          $('#getValueResult').text(jqXHR.responseJSON.error);
         });
       });
+
+      // Event listener for Delete Key buttons
+      $(document).on('click', '.delete-key-btn', function () {
+        const key = $(this).data('key');
+
+        // Perform DELETE request for the specific key
+        $.ajax({
+          url: `/delete/${key}`,
+          type: 'DELETE',
+          success: function (data) {
+            // Remove the row from the table
+            $(this).closest('tr').remove();
+            console.log(data);
+          },
+          error: function (jqXHR) {
+            console.error(jqXHR.responseText);
+          }
+        });
+      });
+
     });
   </script>
 </body>
+
 </html>

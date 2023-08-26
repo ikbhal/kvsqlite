@@ -15,6 +15,7 @@ const db = new sqlite3.Database('keyvaluestore.db');
 // Define your API endpoints
 app.post('/set', (req, res) => {
   const { key, value } = req.body;
+  console.log( )
   db.run('INSERT OR REPLACE INTO kvstore (key, value) VALUES (?, ?)', [key, value], (err) => {
     if (err) {
       console.error(err);
@@ -50,6 +51,21 @@ app.get('/keys', (req, res) => {
     }
   });
 });
+
+app.delete('/delete/:key', (req, res) => {
+  const keyToDelete = req.params.key;
+
+  // Assuming "db" is your SQLite database connection
+  db.run('DELETE FROM kvstore WHERE key = ?', [keyToDelete], (err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.json({ message: 'Key deleted successfully' });
+    }
+  });
+});
+
 
 // Start the server
 app.listen(port, () => {
