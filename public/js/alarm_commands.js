@@ -189,6 +189,16 @@ class AlarmCommands {
     }
   }
   
+  isValidTimeFormat(time) {
+    // Regular expression for 24-hour format (hh:mm:ss)
+    const regex24Hour = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+  
+    // Regular expression for 12-hour format with AM/PM (hh:mm:ss am|pm)
+    const regex12Hour = /^(1[0-2]|0?[1-9]):([0-5]\d):([0-5]\d) (am|pm)$/i;
+  
+    return regex24Hour.test(time) || regex12Hour.test(time);
+  }
+  
   
 }
 
