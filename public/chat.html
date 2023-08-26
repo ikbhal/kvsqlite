@@ -78,7 +78,8 @@
           if (command && command.startsWith('todo')) {
             const todoCommand = args.length > 0 ? args[0] : null;
             const todoArgs = args.slice(1);
-            todoList.handleCommand(todoCommand, todoArgs);
+            let response = todoList.handleCommand(todoCommand, todoArgs);
+            displayMessage('Todo', response);
           }
           else {
             handleCommand(command, args);
