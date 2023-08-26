@@ -85,7 +85,8 @@
           else if (command.startsWith('alarm')) {
             const alarmCommand = args.length > 0 ? args[0] : null;
             const alarmArgs = args.slice(1);
-            response = alarmCommands.handleCommand(alarmCommand, alarmArgs);
+            let response = alarmCommands.handleCommand(alarmCommand, alarmArgs);
+            displayMessage('Alarm', response);
           }
           else {
             handleCommand(command, args);
