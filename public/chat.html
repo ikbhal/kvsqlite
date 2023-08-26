@@ -11,6 +11,7 @@
 <body>
   <div class="container mt-4">
     <h2>Chat Web</h2>
+    <p>New command working: files-save-file </p>
     <div id="chatMessages"></div>
     <div class="input-group mb-3">
       <input type="text" id="messageInput" class="form-control" placeholder="Type a message...">
@@ -139,7 +140,7 @@
 
 
           case 'files-save-file':
-            const updateFileName = arg[0];
+            const updateFileName = args[0];
 
             // Display a form popup to enter file content
             const form = `
