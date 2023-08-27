@@ -18,6 +18,24 @@ class CalendarCommands {
       }
     }
   
+
+    async handleAddEvent(args) {
+      const [name, date, hour, eventnote] = args;
+    
+      // Validate input
+      if (!name || !date || !hour || !eventnote) {
+        return 'Invalid input. Please provide all required parameters.';
+      }
+
+      let calendarKey = this.getCalendarKey(name,date, hour);
+
+      try {
+        await kvStoreInstance.setKeyValue(calendarKey, eventnote);
+        return 'Event added successfully.';
+      } catch (error) {
+        return 'Failed to add event.';
+      }
+    }
     showHelp() {
       const helpMessage = [
         '/calendar add <name> <date> <hour> <eventnote> - Add an event to the calendar.',
