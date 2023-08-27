@@ -84,7 +84,7 @@ class QuranCommands {
     }
 
     const quranLink = `https://quran.com/${this.surah}/${this.ayat}`;
-    return `Moved to next ayat: Surah ${this.surah}, Ayat ${this.ayat}. [${quranLink}]`;
+    return `Moved to next ayat: Surah ${this.surah}, Ayat ${this.ayat}. [${quranLink}] <br/> <a href="${quranLink}" target="_blank">Open in Quran.com</a><br/>`;
   }
 }
 
