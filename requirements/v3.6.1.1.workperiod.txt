@@ -4,6 +4,16 @@ display period number that it
 no start time,no end time, no notes 
 maintain timerhandler
 
+/period stop 
+clear timerhandler
+
+/period status 
+when intial period started 
+show current period number , when it started if possible
+
+/period help 
+display commands  /period start , /period stop , /period status
+
 
 ---
 
