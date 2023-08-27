@@ -58,38 +58,27 @@ class QuranCommands {
   }
 
   handleStatusQuran() {
-    // const value = this.kvstore.get('quran');
-    // if (value) {
-    // const { surah, ayat } = JSON.parse(value);
     const quranLink = `https://quran.com/${this.surah}/${this.ayat}`;
-    return `Current position: Surah ${this.surah}, Ayat ${this.ayat}. [${quranLink}] <br/><a href="${quranUrl}" target="_blank">Open in Quran.com</a><br/>`;
-    // } else {
-    //   return 'No Quran position set.';
-    // }
+    return `Current position: Surah ${this.surah}, Ayat ${this.ayat}. [${quranLink}] <br/><a href="${quranLink}" target="_blank">Open in Quran.com</a><br/>`;
   }
 
   handleResetQuran() {
-    // const value = { surah: 1, ayat: 1 };
-    // this.kvstore.set('quran', JSON.stringify(value));
     this.surah = 1;
     this.ayat = 1;
     return 'Quran position reset to Surah 1, Ayat 1.';
   }
 
   handleNextQuran() {
-    // const { surah, ayat } = JSON.parse(value);
     const totalAyats = quranSurahAyatsArray[this.surah - 1];
 
     if (this.ayat < totalAyats) {
       this.ayat++;
-      // this.kvstore.set('quran', JSON.stringify({ surah, ayat: ayat + 1 }));
     } else if (this.ayat >= quranSurahAyatsArray.length) {
       this.surah++;
       this.ayat = 1;
       if (this.surah >= quranSurahAyatsArray.length) {
         this.surah = 1;
       }
-      // this.kvstore.set('quran', JSON.stringify({ surah: surah + 1, ayat: 1 }));
     } else {
       return 'You have reached the end of the Quran.';
     }
