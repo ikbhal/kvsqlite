@@ -31,11 +31,25 @@ class QuranCommands {
         return this.handleResetQuran();
       case 'next':
         return this.handleNextQuran();
+      case 'help':
+        return this.showHelp();
       default:
         return 'Unknown command.';
     }
   }
-
+  
+  showHelp() {
+    const helpMessage = [
+      '/quran start - Start reading the Quran from a specific ayah.',
+      '/quran status - Show the current reading status.',
+      '/quran reset - Reset the reading back to the beginning.',
+      '/quran next - Move to the next ayah.',
+      '/quran help - Show this help message.'
+    ].join('<br>');
+  
+    return helpMessage;
+  }
+  
   handleStartQuran(args) {
     this.surah = 1;
     this.ayat = 1;
@@ -46,9 +60,9 @@ class QuranCommands {
   handleStatusQuran() {
     // const value = this.kvstore.get('quran');
     // if (value) {
-      // const { surah, ayat } = JSON.parse(value);
-      const quranLink = `https://quran.com/${this.surah}/${this.ayat}`;
-      return `Current position: Surah ${this.surah}, Ayat ${this.ayat}. [${quranLink}] <br/><a href="${quranUrl}" target="_blank">Open in Quran.com</a><br/>`;
+    // const { surah, ayat } = JSON.parse(value);
+    const quranLink = `https://quran.com/${this.surah}/${this.ayat}`;
+    return `Current position: Surah ${this.surah}, Ayat ${this.ayat}. [${quranLink}] <br/><a href="${quranUrl}" target="_blank">Open in Quran.com</a><br/>`;
     // } else {
     //   return 'No Quran position set.';
     // }
@@ -57,7 +71,7 @@ class QuranCommands {
   handleResetQuran() {
     // const value = { surah: 1, ayat: 1 };
     // this.kvstore.set('quran', JSON.stringify(value));
-    this.surah = 1; 
+    this.surah = 1;
     this.ayat = 1;
     return 'Quran position reset to Surah 1, Ayat 1.';
   }
@@ -70,10 +84,10 @@ class QuranCommands {
       this.ayat++;
       // this.kvstore.set('quran', JSON.stringify({ surah, ayat: ayat + 1 }));
     } else if (this.ayat >= quranSurahAyatsArray.length) {
-      this.surah ++;
-      this.ayat=1;
-      if(this.surah >= quranSurahAyatsArray.length){
-        this.surah =1;
+      this.surah++;
+      this.ayat = 1;
+      if (this.surah >= quranSurahAyatsArray.length) {
+        this.surah = 1;
       }
       // this.kvstore.set('quran', JSON.stringify({ surah: surah + 1, ayat: 1 }));
     } else {
