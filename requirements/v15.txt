@@ -6,3 +6,27 @@ use case
 1) network reconnect reminder - revisit people 
 1) bike service reminder 
 2) event attend reminder 
+
+---
+water 
+ date 1 -> 2 
+ reset 
+ help 
+---
+toilet 
+  date 1 -> 2
+---
+netowrk 
+  date 1 -> 2 , notes 
+  reconnect 
+  p1 -> 3 dya later, 1 month later
+  p2 -> 5days
+  new friend 
+  p1 stories 
+    name, contact, help we can do, help they can do , why ,email 
+
+    network reconnect  -> give the mobiler or email to who i have contact reconnect 
+    network add  -> show me the person to who contact
+---
+namaaz reminder 
+ date -> 
