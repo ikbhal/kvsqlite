@@ -101,8 +101,20 @@
           else if (command.startsWith('quran')) {
             const qcmd = args.length > 0 ? args[0] : null;
             const qargs = args.slice(1);
-            let response = quranBookmarkCommands.handleCommand(qcmd, qargs);
-            displayMessage('Quran', response);
+            // let response = quranBookmarkCommands.handleCommand(qcmd, qargs);
+            // displayMessage('Quran', response);
+            const response = quranBookmarkCommands.handleCommand(qcmd, qargs);
+
+            if (response instanceof Promise) {
+              response.then(result => {
+                displayMessage('Quran', result);
+              }).catch(error => {
+                displayMessage('Quran', `Error: ${error}`);
+              });
+            } else {
+              displayMessage('Quran', response);
+            }
+
           }
           else {
             handleCommand(command, args);
