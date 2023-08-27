@@ -100,7 +100,7 @@
           else if (command.startsWith('quran')) {
             const qcmd = args.length > 0 ? args[0] : null;
             const qargs = args.slice(1);
-            let response = periodCommands.handleCommand(qcmd, qargs);
+            let response = quranCommands.handleCommand(qcmd, qargs);
             displayMessage('Quran', response);
           }
           else {
