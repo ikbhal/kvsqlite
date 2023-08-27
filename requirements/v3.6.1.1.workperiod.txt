@@ -1,0 +1,51 @@
+/period start 
+play sound every 45 minutes 
+display period number that it 
+no start time,no end time, no notes 
+maintain timerhandler
+
+
+---
+
+continous loop 
+
+45 minutes contious 
+15minutes break 
+
+restart
+history so far 
+stop counter 
+
+no db 
+only local storage if needed
+even no local storage 
+
+/work-start
+start interval timer every 45 minutes 
+
+if 45 minutes interval hit then 
+  start 15 imnute break interval 
+    if 15 minutes inteval hit 
+	  start again 45 minutes repeat 
+	  
+periods: {start time, end dtime ,notes }
+	
+store set timer handle , type : work, break 
+
+on reaching period end -> play sound 
+text to speech is better 
+or any audio school bell sound 	
+	  
+/work-stop 
+clear interval or settimer 
+  
+/work-period-table 
+sno period start time, period end time , note 
+1    9am 9.45am , p1 notes 
+2    9.45am , 10.30am , p2 notes 
+
+
+3    ...
+
+/work-pause 
+/work-resume 

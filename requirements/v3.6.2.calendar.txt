@@ -1,0 +1,137 @@
+
+
+---
+calendar 
+ bookmark
+ notes
+ events
+ counters
+ todoapp
+ stopwatch
+ pomodoro
+ 
+---
+quran read 
+2 quran per month 
+track what i read so far 
+what i read today 
+time spent
+wheni started
+when i stoped 
+atleast check 
+atleast littlemore notes 
+
+min listen same , no bookmark 
+--
+even quran miss 
+darood -> astagafar 
+--
+even miss -> counter allah 
+
+---
+make load wise 
+
+---
+/calendar create <name>
+
+key: masjid 
+value: 
+{
+name: masjid,
+days: [
+ {},// daay
+ {}
+]
+}
+---
+value 2 version 
+{
+name: masjid,
+days: [
+ day1 notes,
+ day 2 notes 
+ 
+]
+}
+/calendar event delete majsid 5.30am ...
+
+---
+/calendar event add  <calendar name> <event details time, description>
+
+/calendar event add majsid 5.30-6 subhah
+/calendar event add majsid 1pm-2pm zuhr
+
+
+---
+/calendar rename oldname newname 
+
+/calendar rename masjid iqbal-masjid-attenance
+
+---
+/calendar delete <name>
+
+/calendar delete test
+
+---
+/calendar get <name>
+
+/calendar get majsid 
+
+365 entries
+
+
+/calender-help 
+
+list of commands 
+----
+kvsqlite chat 
+features 
+1) calendar 
+
+/calendar create <name>
+
+365 days one year 
+
+key: calendar-masjid-day-1
+value: go to masjid, 5 times majsjid, atleast visit; 
+key2: calendar-masjid-day-2
+value: 2 time visited masjid 
+
+key: calendar-masjid 
+value: [calendar-masjid-day-1, calendar-masjid-day-2]
+
+---
+key: calendar-masjid
+value: 
+[
+{
+	"subah": true, 
+	"zuhr": true, 
+	"asr": 
+}, 
+//day 1, 
+//day2 
+]
+
+---
+
+key stoore
+key , value
+
+key : name
+value: towheeed
+
+toweehed key value ? towheed
+
+---
+other
+
+kvsqlite chat 
+features 
+1) calendar 
+2) counter
+3) reminder 
+4) flutter app 
+listen notification 
+5) flutter app 
+listen poll every 45 minutes 
