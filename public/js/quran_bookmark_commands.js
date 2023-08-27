@@ -73,7 +73,7 @@ class QuranCommands {
 
     if (this.ayat < totalAyats) {
       this.ayat++;
-    } else if (this.ayat >= quranSurahAyatsArray.length) {
+    } else if (this.ayat >= totalAyats) {
       this.surah++;
       this.ayat = 1;
       if (this.surah >= quranSurahAyatsArray.length) {
