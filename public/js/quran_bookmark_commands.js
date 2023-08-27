@@ -39,7 +39,7 @@ class QuranCommands {
   handleStartQuran(args) {
     this.surah = 1;
     this.ayat = 1;
-    const quranUrl = `https://quran.com/${this.surah}/${this.ayatayat}`;
+    const quranUrl = `https://quran.com/${this.surah}/${this.ayat}`;
     return `Quran starting position set. <br/> <a href="${quranUrl}" target="_blank">Open in Quran.com</a><br/>`;
   }
 
