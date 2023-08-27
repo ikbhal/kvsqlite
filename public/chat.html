@@ -30,6 +30,7 @@
   <script src="js/alarm_commands.js"></script>
   <script src="js/period_commands.js"></script>
   <script src="js/quran_bookmark_commands.js"></script>
+  <script src="js/calendar_commands.js"></script>
 
   <script>
     let timerInterval; // Store the interval for the timer
@@ -125,6 +126,20 @@
               });
             } else {
               displayMessage('Quran', response);
+            }
+          }
+          else if (command.startsWith('calendar')) {
+            const ccmd = args.length > 0 ? args[0] : null;
+            const cargs = args.slice(1);
+            const response = calendarCommands.handleCommand(ccmd, cargs);
+            if (response instanceof Promise) {
+              response.then(result => {
+                displayMessage('Calendar', result);
+              }).catch(error => {
+                displayMessage('Calendar', `Error: ${error}`);
+              });
+            } else {
+              displayMessage('Calendar', response);
             }
 
           }
