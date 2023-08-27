@@ -50,16 +50,30 @@ class TodoList {
   }
 
   async handleListTodos() {
-    if (this.todos.length === 0) {
-      return 'No todos available.';
-    } else {
-      const todosList = this.todos.map((todo, index) => {
-        const status = todo.completed ? 'completed' : 'uncompleted';
-        return `${index + 1}. ${todo.text} (${status})`;
-      });
-      return todosList.join('\n');
+    try {
+      const todosData = await this.kvStore.getKeyValue('todos');
+      const storedTodos = JSON.parse(todosData);
+
+      if (!Array.isArray(storedTodos)) {
+        throw new Error('Invalid data format in KVStore.');
+      }
+
+      this.todos = storedTodos;
+
+      if (this.todos.length === 0) {
+        return 'No todos available.';
+      } else {
+        const todosList = this.todos.map((todo, index) => {
+          const status = todo.completed ? 'completed' : 'uncompleted';
+          return `${index + 1}. ${todo.text} (${status})`;
+        });
+        return todosList.join('<br>');
+      }
+    } catch (error) {
+      return 'Error while retrieving todos from KVStore.';
     }
   }
+
 
   async handleMarkCompleted(args, completed) {
     const index = parseInt(args[0]) - 1;
