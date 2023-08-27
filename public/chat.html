@@ -84,8 +84,20 @@
             const todoCommand = args.length > 0 ? args[0] : null;
             const todoArgs = args.slice(1);
             let response = todoList.handleCommand(todoCommand, todoArgs);
-            displayMessage('Todo', response);
+
+            // Check if the response is a promise
+            if (response instanceof Promise) {
+              response.then(result => {
+                displayMessage('Todo', result);
+              }).catch(error => {
+                console.error(error); // Handle the error
+                displayMessage('Todo', 'An error occurred.');
+              });
+            } else {
+              displayMessage('Todo', response);
+            }
           }
+
           else if (command.startsWith('alarm')) {
             const alarmCommand = args.length > 0 ? args[0] : null;
             const alarmArgs = args.slice(1);
