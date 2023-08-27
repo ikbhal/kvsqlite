@@ -7,14 +7,11 @@ class PeriodCommands {
     handleCommand(command, args) {
       switch (command) {
         case 'start':
-          this.handleStart(args);
-          break;
+          return this.handleStart(args);
         case 'stop':
-          this.handleStop();
-          break;
+          return this.handleStop();
         case 'status':
-          this.handleStatus();
-          break;
+          return this.handleStatus();
         case 'help':
           return 'Available commands: /period start, /period stop, /period status';
         default:
