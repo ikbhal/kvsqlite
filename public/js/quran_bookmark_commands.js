@@ -86,4 +86,4 @@ class QuranCommands {
 }
 
 // Instantiate the QuranCommands class with your kvstore instance
-const quranCommands = new QuranCommands(kvstore);
+const quranCommands = new QuranCommands();
