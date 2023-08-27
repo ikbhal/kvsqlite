@@ -101,7 +101,7 @@
           else if (command.startsWith('quran')) {
             const qcmd = args.length > 0 ? args[0] : null;
             const qargs = args.slice(1);
-            let response = quranCommands.handleCommand(qcmd, qargs);
+            let response = quranBookmarkCommands.handleCommand(qcmd, qargs);
             displayMessage('Quran', response);
           }
           else {
