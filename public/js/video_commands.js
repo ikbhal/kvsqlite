@@ -85,19 +85,45 @@ class VideoCommands {
     async handlePlayVideo(args) {
       const [indexStr] = args;
       const index = parseInt(indexStr) - 1;
-  
+    
       if (isNaN(index)) {
         return 'Invalid index.';
       }
-  
+    
       const videos = await this.kvStore.getKeyValue(this.videosKey) || [];
-  
+    
       if (index < 0 || index >= videos.length) {
         return 'Invalid index.';
       }
-  
-      return `Playing video: ${videos[index].url}`;
+    
+      const videoUrl = videos[index].url;
+      const embeddedUrl = this.getEmbeddedVideoUrl(videoUrl); // Call a helper function to get the embedded URL
+    
+      return `<iframe width="560" height="315" src="${embeddedUrl}" frameborder="0" allowfullscreen></iframe>`;
     }
+    
+    getEmbeddedVideoUrl(videoUrl) {
+      // Extract the video ID from the YouTube URL
+      const videoId = this.extractVideoId(videoUrl);
+    
+      // Construct the embedded YouTube URL
+      const embeddedUrl = `https://www.youtube.com/embed/${videoId}`;
+    
+      return embeddedUrl;
+    }
+    
+    extractVideoId(videoUrl) {
+      // Use regex or other methods to extract the video ID from the YouTube URL
+      // For example, if the video URL is "https://www.youtube.com/watch?v=VIDEO_ID"
+      // you can extract "VIDEO_ID" from it
+      const match = videoUrl.match(/v=([^&]+)/);
+      if (match) {
+        return match[1];
+      } else {
+        throw new Error('Invalid YouTube video URL.');
+      }
+    }
+    
   
     async handleCurrentVideo(args) {
       const [indexStr] = args;
