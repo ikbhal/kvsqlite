@@ -144,7 +144,7 @@
             }
 
           }
-          else if (command.startsWith('expense') || command.startsWith('exp')) {
+          else if (command.startsWith('expense') || command.startsWith('exp') || command.startsWith('e')) {
             const ecmd = args.length > 0 ? args[0] : null;
             const eargs = args.slice(1);
             const response = expenseCommands.handleCommand(ecmd, eargs);
