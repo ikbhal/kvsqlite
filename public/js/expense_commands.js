@@ -16,7 +16,7 @@ class ExpenseCommands {
           return this.handleTotal();
         case 'help':
         case 'h':
-            return this.showHelp;
+            return this.showHelp();
         default:
           return 'Unknown command.';
       }
