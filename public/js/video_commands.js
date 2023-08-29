@@ -69,10 +69,16 @@ class VideoCommands {
     if (videos.length === 0) {
       return 'No videos available.';
     }
-
-    const videosList = videos.map((video, index) => `${index + 1}. ${video.url}`);
-    return videosList.join('\n');
+  
+    let videosList = '';
+    for (let index = 0; index < videos.length; index++) {
+      const video = videos[index];
+      videosList += `${index + 1}. <a href="${video.url}" target="_blank">${video.url}</a>\n`;
+    }
+  
+    return videosList;
   }
+  
 
   async handleDeleteVideo(args) {
     const [indexStr] = args;
