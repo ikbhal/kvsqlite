@@ -157,7 +157,20 @@
             } else {
               displayMessage('Expense', response);
             }
-
+          }
+          else if (command.startsWith('video') || command.startsWith('v')) {
+            const vcmd = args.length > 0 ? args[0] : null;
+            const vargs = args.slice(1);
+            const response = videoCommands.handleCommand(vcmd, vargs);
+            if (response instanceof Promise) {
+              response.then(result => {
+                displayMessage('Video', result);
+              }).catch(error => {
+                displayMessage('Video', `Error: ${error}`);
+              });
+            } else {
+              displayMessage('Video', response);
+            }
           }
 
           else {
