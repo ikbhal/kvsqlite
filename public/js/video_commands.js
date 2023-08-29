@@ -111,22 +111,24 @@ class VideoCommands {
   async handlePlayVideo(args) {
     const [indexStr] = args;
     const index = parseInt(indexStr) - 1;
-
+  
     if (isNaN(index)) {
       return 'Invalid index.';
     }
-
-    const videos = await this.kvStore.getKeyValue(this.videosKey) || [];
-
+  
+    const videosJSON = await this.kvStore.getKeyValue(this.videosKey) || [];
+    const videos = JSON.parse(videosJSON);
+  
     if (index < 0 || index >= videos.length) {
       return 'Invalid index.';
     }
-
+  
     const videoUrl = videos[index].url;
     const embeddedUrl = this.getEmbeddedVideoUrl(videoUrl); // Call a helper function to get the embedded URL
-
+  
     return `<iframe width="560" height="315" src="${embeddedUrl}" frameborder="0" allowfullscreen></iframe>`;
   }
+  
 
   getEmbeddedVideoUrl(videoUrl) {
     // Extract the video ID from the YouTube URL
