@@ -31,6 +31,7 @@
   <script src="js/period_commands.js"></script>
   <script src="js/quran_bookmark_commands.js"></script>
   <script src="js/calendar_commands.js"></script>
+  <script src="js/expense_commands.js"></script>
 
   <script>
     let timerInterval; // Store the interval for the timer
@@ -143,6 +144,22 @@
             }
 
           }
+          else if (command.startsWith('expense') || command.startsWith('exp')) {
+            const ecmd = args.length > 0 ? args[0] : null;
+            const eargs = args.slice(1);
+            const response = expenseCommands.handleCommand(ecmd, eargs);
+            if (response instanceof Promise) {
+              response.then(result => {
+                displayMessage('Expense', result);
+              }).catch(error => {
+                displayMessage('Expense', `Error: ${error}`);
+              });
+            } else {
+              displayMessage('Expense', response);
+            }
+
+          }
+
           else {
             handleCommand(command, args);
           }

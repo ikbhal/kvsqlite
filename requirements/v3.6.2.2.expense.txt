@@ -1,0 +1,36 @@
+
+keep track of expense 
+keep track of persona, family, business
+
+
+---
+keep track of expense 
+keep track of sales 
+
+/expense 
+/sales 
+---
+/expense one 
+add number 
+/expense total 
+/exponse list 
+/expense set current 
+---
+/expense date  automatically 
+/expense month 
+/expense year 
+/expense week 
+/expense delete 
+/expense 
+---
+/expense reset 
+
+---
+
+mini 
+no category 
+no date 
+--
+v2 
+no category 
+date support 
