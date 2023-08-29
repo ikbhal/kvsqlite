@@ -152,42 +152,47 @@ class VideoCommands {
     }
   }
 
-
   async handleCurrentVideo(args) {
     const [indexStr] = args;
-
+  
     if (indexStr) {
       const index = parseInt(indexStr) - 1;
-
+  
       if (isNaN(index)) {
         return 'Invalid index.';
       }
-
-      const videos = await this.kvStore.getKeyValue(this.videosKey) || [];
-
+  
+      const videosJSON = await this.kvStore.getKeyValue(this.videosKey) || [];
+      const videos = JSON.parse(videosJSON);
+  
       if (index < 0 || index >= videos.length) {
         return 'Invalid index.';
       }
-
+  
       await this.kvStore.setKeyValue('currentVideoIndex', index.toString());
-      return `Current video set to: ${videos[index].url}`;
+      const embeddedUrl = this.getEmbeddedVideoUrl(videos[index].url);
+  
+      return `<iframe width="560" height="315" src="${embeddedUrl}" frameborder="0" allowfullscreen></iframe>`;
     } else {
       const currentVideoIndex = await this.kvStore.getKeyValue('currentVideoIndex');
       if (currentVideoIndex !== null) {
         const index = parseInt(currentVideoIndex);
-        const videos = await this.kvStore.getKeyValue(this.videosKey) || [];
-
+        const videosJSON = await this.kvStore.getKeyValue(this.videosKey) || [];
+        const videos = JSON.parse(videosJSON);
+  
         if (index < 0 || index >= videos.length) {
           return 'Current video index is invalid.';
         }
-
-        return `Current video: ${videos[index].url}`;
+  
+        const embeddedUrl = this.getEmbeddedVideoUrl(videos[index].url);
+  
+        return `<iframe width="560" height="315" src="${embeddedUrl}" frameborder="0" allowfullscreen></iframe>`;
       } else {
         return 'No current video set.';
       }
     }
   }
-
+  
   async handleAddNotes(args) {
     const [notes] = args;
 
