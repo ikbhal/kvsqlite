@@ -63,9 +63,15 @@ class VideoCommands {
     return 'Video added successfully.';
   }
 
-
   async handleListVideos() {
-    const videos = await this.kvStore.getKeyValue(this.videosKey) || [];
+    const videosJSON = await this.kvStore.getKeyValue(this.videosKey);
+    
+    if (!videosJSON) {
+      return 'No videos available.';
+    }
+  
+    const videos = JSON.parse(videosJSON);
+  
     if (videos.length === 0) {
       return 'No videos available.';
     }
@@ -78,7 +84,6 @@ class VideoCommands {
   
     return videosList;
   }
-  
 
   async handleDeleteVideo(args) {
     const [indexStr] = args;
