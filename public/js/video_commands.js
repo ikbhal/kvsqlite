@@ -40,28 +40,27 @@ class VideoCommands {
 
   async handleAddVideo(args) {
     const [url] = args;
-
+  
     // Validate input
     if (!url) {
       return 'Invalid input. Please provide a valid YouTube video URL.';
     }
-
+  
     let videos;
     try {
-      videos = await this.kvStore.getKeyValue(this.videosKey);
-      if (!videos) {
-        videos = [];
-      }
+      const videosJSON = await this.kvStore.getKeyValue(this.videosKey);
+      videos = videosJSON ? JSON.parse(videosJSON) : [];
     } catch (error) {
       // Handle the case when the key is not found
       videos = [];
     }
-
+  
     videos.push({ url, notes: '' });
-
+  
     await this.kvStore.setKeyValue(this.videosKey, JSON.stringify(videos));
     return 'Video added successfully.';
   }
+  
 
   async handleListVideos() {
     const videosJSON = await this.kvStore.getKeyValue(this.videosKey);
@@ -76,14 +75,19 @@ class VideoCommands {
       return 'No videos available.';
     }
   
-    let videosList = '';
+    let videosTable = '<table>';
+    videosTable += '<tr><th>S.No</th><th>Video URL</th></tr>';
+  
     for (let index = 0; index < videos.length; index++) {
       const video = videos[index];
-      videosList += `${index + 1}. <a href="${video.url}" target="_blank">${video.url}</a>\n`;
+      videosTable += `<tr><td>${index + 1}</td><td><a href="${video.url}" target="_blank">${video.url}</a></td></tr>`;
     }
   
-    return videosList;
+    videosTable += '</table>';
+  
+    return videosTable;
   }
+  
 
   async handleDeleteVideo(args) {
     const [indexStr] = args;
