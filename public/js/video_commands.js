@@ -160,7 +160,6 @@ class VideoCommands {
   }
   
   // Instantiate the KVStore class
-  const kvStoreInstance = new KVStore();
   
   // Instantiate the VideoCommands class with the KVStore instance
   const videoCommands = new VideoCommands(kvStoreInstance);
