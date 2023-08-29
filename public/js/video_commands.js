@@ -195,28 +195,33 @@ class VideoCommands {
   
   async handleAddNotes(args) {
     const [notes] = args;
-
-    if (!notes) {
-      return 'Invalid input. Please provide notes for the current video.';
-    }
-
+  
     const currentVideoIndex = await this.kvStore.getKeyValue('currentVideoIndex');
     if (currentVideoIndex !== null) {
       const index = parseInt(currentVideoIndex);
-      const videos = await this.kvStore.getKeyValue(this.videosKey) || [];
-
+      const videosJSON = await this.kvStore.getKeyValue(this.videosKey) || [];
+      const videos = JSON.parse(videosJSON);
+  
       if (index < 0 || index >= videos.length) {
         return 'Current video index is invalid.';
       }
-
-      videos[index].notes = notes;
-      await this.kvStore.setKeyValue(this.videosKey, JSON.stringify(videos));
-      return 'Notes added to the current video.';
+  
+      if (!notes) {
+        if (videos[index].notes) {
+          return `Notes for the current video: ${videos[index].notes}`;
+        } else {
+          return 'No notes available for the current video.';
+        }
+      } else {
+        videos[index].notes = notes;
+        await this.kvStore.setKeyValue(this.videosKey, JSON.stringify(videos));
+        return 'Notes added to the current video.';
+      }
     } else {
       return 'No current video set.';
     }
   }
-}
+  
 
 // Instantiate the KVStore class
 
